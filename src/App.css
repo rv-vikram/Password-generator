@@ -23,3 +23,10 @@ h2{
   text-align: center;
   margin: 0px;
 }
+
+button:nth-child(1){
+  font-family: 'Rokkitt',
+    serif;
+    font-size: 20px;
+    color: #4e1e89;
+}

@@ -6,9 +6,16 @@ import PasswordIcon from "@mui/icons-material/Password";
 import Grid from "@mui/material/Grid";
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
 import Logic from "../utils/Logic";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import Tooltip from "@mui/material/Tooltip";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useEffect } from "react";
 
 function Layout() {
   const [response, setResponse] = useState("");
+  const [load, setLoad] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [widths, setWidths] = useState();
   const [options, setOptions] = useState({
     special: true,
     lowercase: true,
@@ -16,10 +23,20 @@ function Layout() {
     uppercase: true,
     length: 0,
   });
+  const matches = useMediaQuery("(min-width:600px)");
+  useEffect(() => {
+    matches ? setWidths(2 / 5) : setWidths(4 / 5);
+  });
 
   const handleGenerator = () => {
+    setLoad(false);
+    setVisible(true);
     let result = Logic(options);
     setResponse(result.join(""));
+    setTimeout(() => {
+      setVisible(false);
+      setLoad(true);
+    }, 1000);
   };
 
   const handleChange = ({ target }) => {
@@ -31,12 +48,16 @@ function Layout() {
     }
   };
 
+  const handleCopy = ({ target }) => {
+    navigator.clipboard.writeText(target.textContent);
+  };
+
   return (
     <Box
       sx={{
         margin: "auto",
         marginTop: 20,
-        width: 2 / 5,
+        width: `${widths}`,
         minHeight: 300,
         paddingTop: 2,
         boxShadow: 2,
@@ -129,11 +150,19 @@ function Layout() {
         sx={{
           margin: "auto",
           textAlign: "center",
+          height: 60,
         }}
       >
-        <Button sx variant="text">
-          {response}
-        </Button>
+        {visible ? (
+          <img style={{ width: "10%" }} src="Pulse.gif" alt="loading" />
+        ) : null}
+        {load ? (
+          <Tooltip title={"Click to copy"}>
+            <Button onClick={handleCopy} variant="text">
+              {response} <ContentCopyIcon sx={{ marginLeft: 2 }} />
+            </Button>
+          </Tooltip>
+        ) : null}
       </Box>
     </Box>
   );
