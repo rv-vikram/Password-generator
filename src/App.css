@@ -1,0 +1,25 @@
+
+
+body {
+  margin: 0px;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #372948;
+}
+
+.layout {
+  border: 1px solid red;
+  margin: auto;
+  width: 40%;
+  padding: 20px;
+  margin-top: 100px;
+}
+
+label{
+  font-family: inherit;
+}
+
+h2{
+  font-family: 'Indie Flower', cursive;
+  text-align: center;
+  margin: 0px;
+}
